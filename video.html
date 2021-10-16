@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">-->
+     <script src="Modules/app.js"></script> 
+    <!-- <link href="style/style.css" type="text/css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4a2b7cef9d.js" crossorigin="anonymous"></script> --> -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
+    <!-- <script src="Modules/copytoclipboard.js"></script> -->
+</head>
+
+<body ng-app="mainApp" ng-controller="FileCtrl">
+    <video id="video" controls></video>
+    <script>
+        var hls = new Hls();
+        hls.loadSource($scope.StreamBaseURL + '/' + $scope.StreamURL);
+        hls.attachMedia(video);
+    </script>
+</body>
+
+</html>

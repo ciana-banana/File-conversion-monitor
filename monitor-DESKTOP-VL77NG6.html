@@ -1,0 +1,171 @@
+<html>
+
+<head>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="Modules/app.js"></script>
+
+    <link href="style/style.css" type="text/css" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/4a2b7cef9d.js" crossorigin="anonymous"></script>
+    
+    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+    <script src="https://unpkg.com/video.js/dist/video.js"></script>
+    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>  
+
+   <script src="Modules/copytoclipboard.js"></script>
+
+
+   <script>
+    function myFunction() {
+      /* Get the text field */
+      var copyText = document.getElementById("myInput");
+    
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    
+      /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+      
+      /* Alert the copied text */
+      alert("Copied the text: " + copyText.value);
+    }
+    </script>
+</head>
+
+<body style="margin: 20;" class="UsrType18" ng-app="mainApp">
+    
+   
+
+    <div id="header" class="header">
+        <!-- toolbar OK: V3.0b8-->
+        <div id="toolbar">
+            <div class="page-width">
+                <div class="containerLogo">
+
+                    <a href="/style/44_Logo.png"><img src="/style/44_Logo.png" alt="Home Page" title="Home Page"
+                            class="logo"></a>
+                </div>
+                <div id="tools">
+                </div>
+            </div>
+        </div>
+        <!-- end toolbar -->
+    </div>
+    <div id="page-box">
+        <div id="container" class="page-width shadowed bottom-rounded">
+            <div id="content">
+                <div class="DIV_MP_Content ">
+
+                    <div class="ctrlContainer h100 vScrollable">
+                        <divclass="row h100">
+                            <div class="table-responsive" ng-controller="AppMediaManagerServiceCtrl">
+                                <p>
+                                    <font size="6" color="white"><i class="fas fa-satellite-dish"></i> Service status:
+                                        <br>
+                                    </font>
+                                    <font size="5" class="text-white-50">{{status.substring(0,
+                                        19)}}<br>{{status.substring(20)}}</font>
+                                </p>
+                            </div>
+                            
+                            
+
+                            <br>
+                            <input type="text" name="search" ng-model="search.$" placeholder="search">
+                            <button type="submit" class="btn btn-search">
+                                <i class="fa fa-search"></i>
+                            </button> <br>
+                            <div ng-controller="FileCtrl">
+                                <table class="table-responsive">
+                                    <thead class="thead-dark">
+                                        <th>IsLink</th>
+                                        <th ng-click="sortProperty('adevicoInstance.instanceCode')"><i
+                                                class="fa fa-sort"></i> Adevico Instance Name</th>
+                                        <th ng-click="sortProperty('OriginalFileName')"><i class="fa fa-sort"></i>
+                                            Original File Name</th>
+                                            <th>Community ID</th>
+                                            <th>Community Name</th>
+                                        <th ng-click="sortProperty('isConverted')"><i class="fa fa-sort"></i> Is
+                                            converted</th>
+                                        <th>Length</th>
+                                        <th>Size</th>
+                                        <!-- <th>StreamBaseURL</th>
+                                        <th>StreamURL</th> -->
+                                        <!-- <th>Preview link</th> -->
+                                        <th>Preview</th>
+                                        <th>GUID</th>
+                                        <th ng-click="sortProperty('insertDate')"><i class="fa fa-sort"></i> Data upload
+                                        </th>
+                                    </thead>
+
+                                    <tr ng-repeat="u in fileList | filter:search | orderBy:orderProperty">
+                                        <td class="tfcol">
+                                            <i class="far fa-square" ng-if="u.FileName == u.GUID"></i>
+                                            <i class="far fa-check-square"
+                                                ng-if="u.FileName !== u.GUID"></i></td>
+                                        <td>{{u.adevicoInstance.instanceCode}}</td>
+                                        <td>{{u.OriginalFileName}}</td>
+                                        <td>{{u.IDCommunity}}</td>
+                                        <td>{{u.CommunityName}}</td>
+                                        <td class="tfcol">
+                                            <i class="far fa-check-circle" ng-if="u.isConverted ==true"></i>
+                                            <i class="fas fa-hourglass-half text-warning"
+                                                ng-if="u.isConverted ==false"></i>
+                                        </td>
+                                        <td>{{u.length | secondsToDateTime | date:'HH:mm:ss'}}</td>
+                                        <td style="text-align: center;">{{u.size | bytes}}</td>
+
+                                        <!-- <td>
+                                            <input type="text" value="{{u.streamBaseURL}}/{{u.streamURL}}" id="myInput">
+                                            <button class="btn btn-secondary" onclick="myFunction()">Copy text</button>
+                                        </td> -->
+
+                                        <td><button type="button" class="btn btn-light" >
+                                            <a href="video.html" target="_blank">Preview</a></button></td>
+                                        <td><input type="text" value="{{u.GUID}}" id="myInput"><button class="btn btn-light" onclick="myFunction()"><i class="far fa-copy"></i></button></td>
+                                        <td>{{u.insertDate | dataPers}}</td>
+
+                                
+                                    </tr>
+                                </table>
+                            </div>
+
+
+                    </div>
+                    <div ng-controller="AppMediaManagerLogCtrl">
+                        <table class="table-responsive" id="tableconversion">
+                            <thead>
+                                <th>Log File Name</th>
+                                <th>Progress</th>
+                                <th>Out time</th>
+                                <th>Total size</th>
+                                <th>FPS</th>
+                                <th>Speed</th>
+                                <th>Bit Rate</th>
+                            </thead>
+
+                            <tr ng-repeat="u in list">
+                                <td>{{u.LogName}}</td>
+                                <td>{{u.Progress}}</td>
+                                <td>{{u.OutTime}}</td>
+                                <td>{{u.TotalSize}}</td>
+                                <td>{{u.FPS}}</td>
+                                <td>{{u.Speed}}</td>
+                                <td>{{u.Bitrate}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
+
+</html>
